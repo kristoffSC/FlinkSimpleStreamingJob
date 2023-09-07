@@ -36,7 +36,7 @@ public class DataStreamJob {
 		// pipeline
 		env
 			.addSource(new CheckpointCountingSource(100, 60))
-			.keyBy(value -> value)
+			.keyBy(value -> value % 10)
 			.process(new KeyCounter())
 			.addSink(new ConsoleSink());
 
