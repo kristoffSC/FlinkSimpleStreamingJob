@@ -19,8 +19,7 @@
 package org.example;
 
 import org.apache.flink.api.common.RuntimeExecutionMode;
-import org.apache.flink.api.common.typeinfo.TypeInformation;
-import org.apache.flink.api.java.functions.KeySelector;
+import org.apache.flink.api.common.restartstrategy.RestartStrategies;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
@@ -31,7 +30,10 @@ public class DataStreamJob {
 
 		env.setRuntimeMode(RuntimeExecutionMode.STREAMING);
 		env.enableCheckpointing(5_000, CheckpointingMode.EXACTLY_ONCE);
+		env.setRestartStrategy(new RestartStrategies.NoRestartStrategyConfiguration());
 		env.setParallelism(1);
+
+		// pipeline
 		env
 			.addSource(new CheckpointCountingSource(100, 60))
 			.keyBy(value -> value)
