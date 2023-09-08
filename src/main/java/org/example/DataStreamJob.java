@@ -37,9 +37,9 @@ public class DataStreamJob {
 		env
 			.addSource(new CheckpointCountingSource(100, 60))
 			.keyBy(value -> value % 10)
-			.process(new KeyCounter())
+			//.process(new KeyCounter())
+			.process(new KeyedCounter2())
 			.addSink(new ConsoleSink());
-
 
 		// Execute program, beginning computation.
 		env.execute("FLink Toy Streaming job.");
